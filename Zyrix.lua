@@ -1,4 +1,10 @@
 --[[
+	ZYRIXUI — Obsidian black/red theme
+	Accent: RGB(220, 40, 50) | Background: RGB(8, 8, 10)
+	Toggle: K | Icon: 101924088206247
+]]
+
+--[[
 	ZYRIXUI - Standalone Zyrix UI (default configuration)
 	Extracted from FLUX and reset to library defaults:
 	- No custom title/subtitle overrides (uses default "B4TMAN // Interface")
@@ -76,9 +82,9 @@ genv.ZyrixClosed = false
 local Zyrix = {}
 genv.Zyrix = Zyrix
 Zyrix.Appearance = {
-	Title = "FLUXY",
-	Subtitle = "script hub",
-	Icon = "rbxassetid://120000763572538",
+	Title = "Fluxy",
+	Subtitle = "Obsidian · FTAP",
+	Icon = "rbxassetid://101924088206247",
 	IconSize = UDim2.new(0, 30, 0, 30)
 }
 Zyrix.Links = {
@@ -98,44 +104,46 @@ Zyrix.Options = {
 	NoGetKey = false
 }
 Zyrix.BatmanTheme = {
-	Accent = Color3.fromRGB(200, 200, 210),
-	AccentHover = Color3.fromRGB(160, 160, 175),
-	Background = Color3.fromRGB(10, 10, 12),
-	TabBar = Color3.fromRGB(14, 14, 16),
+	-- Obsidian-inspired black + red
+	Accent = Color3.fromRGB(220, 40, 50),
+	AccentHover = Color3.fromRGB(255, 70, 80),
+	Background = Color3.fromRGB(8, 8, 10),
+	TabBar = Color3.fromRGB(10, 10, 12),
 	TabIdle = Color3.fromRGB(12, 12, 14),
-	TabActive = Color3.fromRGB(26, 26, 30),
+	TabActive = Color3.fromRGB(22, 14, 16),
 	Panel = Color3.fromRGB(14, 14, 16),
 	Element = Color3.fromRGB(16, 16, 18),
-	Inner = Color3.fromRGB(22, 22, 26),
-	Progress = Color3.fromRGB(200, 200, 210),
-	KnobOn = Color3.fromRGB(220, 220, 230),
-	KnobOff = Color3.fromRGB(70, 70, 78),
-	Stroke = Color3.fromRGB(40, 40, 48),
-	StrokeIn = Color3.fromRGB(50, 50, 58),
-	Divider = Color3.fromRGB(32, 32, 38),
-	Text = Color3.fromRGB(240, 240, 245),
-	TextDim = Color3.fromRGB(140, 140, 150),
-	TextGrey = Color3.fromRGB(110, 110, 120),
-	White = Color3.fromRGB(200, 200, 210),
-	Hover = Color3.fromRGB(28, 28, 32),
-	Door = Color3.fromRGB(10, 10, 12),
+	Inner = Color3.fromRGB(20, 18, 20),
+	Progress = Color3.fromRGB(220, 40, 50),
+	KnobOn = Color3.fromRGB(245, 245, 248),
+	KnobOff = Color3.fromRGB(55, 55, 62),
+	Stroke = Color3.fromRGB(32, 32, 36),
+	StrokeIn = Color3.fromRGB(48, 28, 32),
+	Divider = Color3.fromRGB(28, 28, 32),
+	Text = Color3.fromRGB(245, 245, 248),
+	TextDim = Color3.fromRGB(150, 145, 150),
+	TextGrey = Color3.fromRGB(110, 105, 110),
+	White = Color3.fromRGB(245, 245, 248),
+	Hover = Color3.fromRGB(28, 18, 20),
+	Door = Color3.fromRGB(8, 8, 10),
 }
 Zyrix.Theme = {
-	Accent = Color3.fromRGB(170, 170, 170),
-	AccentHover = Color3.fromRGB(140, 140, 140),
-	Background = Color3.fromRGB(6, 6, 6),
-	Header = Color3.fromRGB(12, 12, 12),
-	Input = Color3.fromRGB(18, 18, 18),
-	Text = Color3.fromRGB(235, 235, 235),
-	TextDim = Color3.fromRGB(130, 130, 130),
-	Success = Color3.fromRGB(170, 170, 170),
-	Error = Color3.fromRGB(80, 40, 40),
-	Warning = Color3.fromRGB(70, 55, 35),
-	StatusIdle = Color3.fromRGB(80, 80, 80),
-	Discord = Color3.fromRGB(120, 120, 120),
-	DiscordHover = Color3.fromRGB(170, 170, 170),
-	Divider = Color3.fromRGB(35, 35, 35),
-	Pending = Color3.fromRGB(50, 50, 50)
+	-- Obsidian black + red key UI
+	Accent = Color3.fromRGB(220, 40, 50),
+	AccentHover = Color3.fromRGB(255, 70, 80),
+	Background = Color3.fromRGB(8, 8, 10),
+	Header = Color3.fromRGB(12, 12, 14),
+	Input = Color3.fromRGB(16, 16, 18),
+	Text = Color3.fromRGB(245, 245, 248),
+	TextDim = Color3.fromRGB(150, 145, 150),
+	Success = Color3.fromRGB(220, 40, 50),
+	Error = Color3.fromRGB(180, 40, 50),
+	Warning = Color3.fromRGB(200, 120, 40),
+	StatusIdle = Color3.fromRGB(70, 70, 78),
+	Discord = Color3.fromRGB(100, 100, 110),
+	DiscordHover = Color3.fromRGB(220, 40, 50),
+	Divider = Color3.fromRGB(32, 32, 36),
+	Pending = Color3.fromRGB(40, 40, 48)
 }
 Zyrix.Callbacks = {
 	OnVerify = nil,
@@ -2564,6 +2572,41 @@ function Zyrix:CreateWindow(config)
 				SetDisplay = function(_, text) if el._setDisplay then el._setDisplay(text) else el.PendingDisplay = text end end,
 			}
 		end
+		function tab:CreatePlayerDropdown(opts)
+			opts = opts or {}
+			local excludeLocal = opts.ExcludeLocal ~= false -- default exclude self
+			local function labelFor(plr)
+				if not plr then return "None" end
+				if plr.DisplayName and plr.DisplayName ~= plr.Name then
+					return plr.DisplayName .. " (@" .. plr.Name .. ")"
+				end
+				return plr.Name
+			end
+			local function buildList()
+				local list = {}
+				for _, plr in ipairs(Players:GetPlayers()) do
+					if not excludeLocal or plr ~= Players.LocalPlayer then
+						table.insert(list, labelFor(plr))
+					end
+				end
+				table.sort(list)
+				if #list == 0 then list = { "None" } end
+				return list
+			end
+			opts.Name = opts.Name or "Target"
+			opts.Options = buildList()
+			opts.Searchable = opts.Searchable ~= false
+			opts.CurrentOption = opts.CurrentOption or { opts.Options[1] }
+			local handle = tab:CreateDropdown(opts)
+			-- register for auto-refresh
+			genv._ZyrixPlayerDropdowns = genv._ZyrixPlayerDropdowns or {}
+			table.insert(genv._ZyrixPlayerDropdowns, {
+				handle = handle,
+				excludeLocal = excludeLocal,
+				buildList = buildList,
+			})
+			return handle
+		end
 		function tab:CreateKeybind(opts)
 			local el = { Type = "keybind", Text = opts.Name, Default = opts.CurrentKeybind or "Q", Callback = opts.Callback, Side = opts.Side }
 			table.insert(tabData.Elements, el)
@@ -4690,11 +4733,11 @@ if not genv.ZyrixSkipDefaultHub then
 	Demo.TargetPart = Demo.TargetPart or "Head"
 	Demo.TargetKey = Demo.TargetKey or Enum.KeyCode.Q
 	local Window = Zyrix:CreateWindow({
-		Name = "B4TMAN // Interface",
+		Name = "Fluxy // Obsidian",
 		ToggleUIKeybind = "K",
 		KeySystem = true,
 		KeySettings = {
-			Title = "Key System",
+			Title = "Fluxy Key",
 			Subtitle = "Enter your key",
 			Key = "FluxVI4T",
 			SaveKey = false, -- false = key window shows EVERY run (true = remembers key in a file & skips the window)
@@ -4739,13 +4782,13 @@ if not genv.ZyrixSkipDefaultHub then
 			Demo.TargetKey = key
 		end,
 	})
-	Combat:CreateDropdown({
-		Name = "Dropdown",
-		Options = {"Option #1", "Option #2", "Option #3", "Option #4"},
-		CurrentOption = {"Option #1"},
+	Combat:CreatePlayerDropdown({
+		Name = "Target Player",
 		Searchable = true,
+		ExcludeLocal = true,
 		Callback = function(o)
-			Demo.TargetPart = o[1]
+			Demo.TargetPlayer = o[1]
+			Zyrix:Notify("Combat", "Target: " .. tostring(o[1]), 2, "info")
 		end,
 	})
 	Visuals:CreateSection("ESP")
@@ -5030,12 +5073,71 @@ if not genv.ZyrixSkipDefaultHub then
 		})
 	end
 	Zyrix.Callbacks.OnSuccess = function()
-		print("[B4TMAN] Hub loaded! Press " .. tostring(HubRegistry.toggleKeybind or "K") .. " to toggle.")
+		print("[Fluxy] Hub loaded! Press " .. tostring(HubRegistry.toggleKeybind or "K") .. " to toggle.")
 	end
-	print("[B4TMAN] Launching hub...")
+	print("[Fluxy] Launching hub...")
 	-- Marker for external scripts (e.g. the fluxy UI adapter): the default hub
 	-- window is fully registered, so they can safely register their own tabs.
 	genv.ZyrixHubRegistered = true
 	Zyrix:Launch()
 end
+
+-- ===================== PLAYER DROPDOWN AUTO-REFRESH =====================
+do
+	local function labelFor(plr)
+		if not plr then return "None" end
+		if plr.DisplayName and plr.DisplayName ~= plr.Name then
+			return plr.DisplayName .. " (@" .. plr.Name .. ")"
+		end
+		return plr.Name
+	end
+	local function buildList(excludeLocal)
+		local list = {}
+		for _, plr in ipairs(Players:GetPlayers()) do
+			if not excludeLocal or plr ~= Players.LocalPlayer then
+				table.insert(list, labelFor(plr))
+			end
+		end
+		table.sort(list)
+		if #list == 0 then list = { "None" } end
+		return list
+	end
+	local function refreshAll()
+		local reg = genv._ZyrixPlayerDropdowns
+		if type(reg) ~= "table" then return 0 end
+		local n = 0
+		for _, entry in ipairs(reg) do
+			pcall(function()
+				local list = entry.buildList and entry.buildList() or buildList(entry.excludeLocal ~= false)
+				local h = entry.handle
+				if h and h.SetOptions then
+					h:SetOptions(list)
+					n += 1
+				end
+			end)
+		end
+		return n
+	end
+	genv.ZyrixRefreshPlayerDropdowns = refreshAll
+	Zyrix.RefreshPlayerDropdowns = refreshAll
+
+	Players.PlayerAdded:Connect(function()
+		task.wait(0.15)
+		refreshAll()
+		task.delay(0.75, refreshAll)
+	end)
+	Players.PlayerRemoving:Connect(function()
+		task.defer(refreshAll)
+	end)
+	task.spawn(function()
+		task.wait(1.5)
+		while true do
+			if genv.ZyrixClosed then break end
+			refreshAll()
+			task.wait(5)
+		end
+	end)
+	print("[Zyrix] Player dropdown auto-refresh armed (join/leave + every 5s)")
+end
+
 return Zyrix
